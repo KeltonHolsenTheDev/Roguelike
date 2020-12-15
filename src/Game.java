@@ -6,11 +6,12 @@ public class Game {
     // constants
     private final static int WIDTH = 10;
     private final static String WALL_CHARACTER = "M";
-    private final static String EMPTY_CHARACTER = " ";
+    private final static String EMPTY_CHARACTER = ".";
 
     private final Scanner console = new Scanner(System.in);
     private Hero hero;
     private Treasure treasure;
+    private Trap trap;
     private boolean isOver;
 
     public void run() {
@@ -38,6 +39,12 @@ public class Game {
         } while (x == hero.getX() && y == hero.getY());
 
         treasure = new Treasure(x, y);
+
+        do {
+            x = rand.nextInt(WIDTH);
+            y = rand.nextInt(WIDTH);
+        } while (x == hero.getX() && y == hero.getY() && x == treasure.getX() && y == treasure.getY());
+        trap = new Trap(x, y);
     }
 
     private void printWorld() {
@@ -52,7 +59,10 @@ public class Game {
                     System.out.print(hero.getSymbol());
                 } else if (row == treasure.getY() && col == treasure.getX()) {
                     System.out.print("T");
-                } else {
+                } else if (row == trap.getY() && col == trap.getX()) {
+                    System.out.print(","); //test of awareness for ya
+                }
+                else {
                     System.out.print(EMPTY_CHARACTER);
                 }
             }
@@ -95,6 +105,10 @@ public class Game {
             isOver = true;
         } else if (hero.getX() == treasure.getX() && hero.getY() == treasure.getY()) {
             System.out.println(hero.getName() + " found the treasure! You win.");
+            isOver = true;
+        }
+        else if (hero.getX() == trap.getX() && hero.getY() == trap.getY()) {
+            System.out.println(trap.getMessage() + " You lose!");
             isOver = true;
         }
     }
