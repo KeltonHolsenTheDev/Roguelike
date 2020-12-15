@@ -26,11 +26,14 @@ public class Game {
         System.out.print("What is the name of your hero?: ");
         String name = console.nextLine();
 
+        System.out.println("What is your character's symbol?: ");
+        char symbol = console.nextLine().charAt(0);
+
         Random rand = new Random();
         int x = rand.nextInt(WIDTH);
         int y = rand.nextInt(WIDTH);
 
-        hero = new Hero(name, x, y);
+        hero = new Hero(name, symbol, x, y);
 
         do {
             x = rand.nextInt(WIDTH);
